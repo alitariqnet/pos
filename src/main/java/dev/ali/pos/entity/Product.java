@@ -12,26 +12,39 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @OneToOne
+    private Item item;
+
     @Column(name = "name")
     private String name;
+
     @Column(name = "model")
     private String model;
-    // Such as cosmetics, household, bakery, beverage,
+
+    // Such as cosmetics, household, bakery, beverage etc.
     @Column(name = "type")
     private String type;
+
     // Any detail about the product that is necessary to keep other than name, model, type, and manufacturer
     @Column(name = "description")
     private String description;
+
     // e.g. vendor
     @Column(name = "manufacturer")
     private String manufacturer;
-    @Column(name = "supplier")
-    private String supplier;
+
+    @ManyToOne
+    @JoinColumn(name = "supplier_id", nullable = false)
+    private Supplier supplier;
+
     // e.g. available or out of stock
     @Column(name = "status")
     private String status;
+
     @Column(name = "price")
     private double price;
+
     @Column(name = "created_on")
     @CreatedDate
     private LocalDateTime createdOn;
@@ -42,6 +55,18 @@ public class Product {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Item getItem() {
+        return item;
+    }
+
+    public void setItem(Item item) {
+        this.item = item;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
     }
 
     public String getName() {
@@ -84,11 +109,11 @@ public class Product {
         this.manufacturer = manufacturer;
     }
 
-    public String getSupplier() {
+    public Supplier getSupplier() {
         return supplier;
     }
 
-    public void setSupplier(String supplier) {
+    public void setSupplier(Supplier supplier) {
         this.supplier = supplier;
     }
 

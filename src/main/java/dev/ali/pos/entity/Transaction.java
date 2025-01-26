@@ -12,22 +12,34 @@ public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(name = "order_id")
     private Long orderId;
-    @Column(name = "customer_id")
-    private Long customerId;
+
+    @Column(name = "cashier_id")
+    private Long cashierId;
+
     @Column(name = "quantity")
     private int quantity;
+
+    // Total amount before including any taxes or service fees and before giving any discounts
     @Column(name = "subTotal")
     private double subTotal;
+
+    // Total payable amount after including any taxes or service fees and after giving any discounts
     @Column(name = "net_payable")
     private double netPayable;
+
     @Column(name = "service_fee")
     private double serviceFee;
+
     @Column(name = "received_amount")
     private double receivedAmount;
+
+    // change due = received amount - net payable
     @Column(name = "change_due")
     private double changeDueAmount;
+
     @Column(name = "created_on")
     @CreatedDate
     private LocalDateTime createdOn;
@@ -48,12 +60,12 @@ public class Transaction {
         this.orderId = orderId;
     }
 
-    public Long getCustomerId() {
-        return customerId;
+    public Long getCashierId() {
+        return cashierId;
     }
 
-    public void setCustomerId(Long customerId) {
-        this.customerId = customerId;
+    public void setCashierId(Long cashierId) {
+        this.cashierId = cashierId;
     }
 
     public int getQuantity() {

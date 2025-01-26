@@ -12,6 +12,7 @@ create table if not exists users(
 
 create table if not exists cashiers(
         id serial not null primary key,
+        user_id serial REFERENCES users (id),
         first_name varchar(50) not null,
         last_name varchar(50) not null,
         email varchar(70) null,
@@ -30,6 +31,7 @@ INSERT INTO cashiers (id, name, address, phone) VALUES (5, 'Ayesha', 'House no.1
 
 create table if not exists managers(
         id serial not null primary key,
+        user_id serial REFERENCES users (id),
         first_name varchar(50) not null,
         last_name varchar(50) not null,
         email varchar(70) null,
@@ -41,22 +43,21 @@ create table if not exists managers(
 
 create table if not exists admins(
         id serial not null primary key,
+        user_id serial REFERENCES users (id),
         first_name varchar(50) not null,
         last_name varchar(50) not null,
         phone varchar(15) null,
         created_on date default now()
         );
 
-create table if not exists items(
+create table if not exists transactions(
         id serial not null primary key,
-        product_id serial not null,
-        order_id serial not null,
-        name varchar(50) not null,
-        price decimal not null,
-        discount decimal null,
-        discounted_price decimal null,
-        promotion boolean null default false,
-        quantity integer null
+        cashier_id serial not null,
+        transaction_id serial not null,
+        item_id varchar(50) not null,
+        total_amount decimal not null,
+        checkout boolean null,
+        created_on date default now()
         )
 
 create table if not exists orders(
@@ -66,15 +67,24 @@ create table if not exists orders(
         item_id varchar(50) not null,
         total_amount decimal not null,
         checkout boolean null,
+        created_on date default now()
+        )
+
+create table if not exists items(
+        id serial not null primary key,
+        product_id serial REFERENCES products (id),
+        order_id serial not null,
+        name varchar(50) not null,
+        price decimal not null,
+        discount decimal null,
         discounted_price decimal null,
         promotion boolean null default false,
-        quantity integer null,
-        created_on date default now()
+        quantity integer null
         )
 
 create table if not exists products(
         id serial not null primary key,
-        supplier_id serial not null,
+        supplier_id serial REFERENCES suppliers (id),
         type  varchar(20) null,
         model varchar(220) null,
         name varchar(30) not null,
@@ -84,3 +94,11 @@ create table if not exists products(
         status varchar(20) null,
         created_on date default now()
         )
+
+create table suppliers(
+        id serial not null primary key,
+        name varchar(50) not null,
+        address text not null,
+        phone varchar(15) null,
+        created_on date default now()
+        );

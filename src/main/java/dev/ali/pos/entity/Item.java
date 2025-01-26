@@ -3,7 +3,7 @@ package dev.ali.pos.entity;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
 
-// Item is the representation of a product in the order
+// Item is the representation of a product in the order/cart
 @Entity
 @Table(name = "items")
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -11,25 +11,37 @@ public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @OneToOne
 //    @Column(name = "product_id")
     private Product product;
-    @Column(name = "name")
-    private String name;
+
     @ManyToOne
     @JoinColumn(name = "order_id", nullable = false)
     private Order order;
+
+    @Column(name = "name")
+    private String name;
+
     @Column(name = "unit_price")
     private double unitPrice;
+
+    // discounted unit price * quantity = total price
     @Column(name = "total_price")
     private double totalPrice;
+
+    // percentage discount on each item
     @Column(name = "discount")
-    private double discount;
+    private int discount;
+
+    // (discount * unit price/100) - unit price = discounted price
     @Column(name = "discounted_price")
     private double discountedPrice;
+
     // If true then discountedPrice will be considered for amount calculation
     @Column(name = "promotion")
     private boolean promotion;
+
     @Column(name = "quantity")
     private int quantity;
 
@@ -81,11 +93,11 @@ public class Item {
         this.totalPrice = totalPrice;
     }
 
-    public double getDiscount() {
+    public int getDiscount() {
         return discount;
     }
 
-    public void setDiscount(double discount) {
+    public void setDiscount(int discount) {
         this.discount = discount;
     }
 
