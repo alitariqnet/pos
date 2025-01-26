@@ -18,7 +18,7 @@ public class Order {
     private Long cashierId;
     @Column(name = "transaction_id")
     private Long transactionId;
-    @OneToMany(mappedBy = "orders")
+    @OneToMany(mappedBy = "id")
     private List<Item> items;
     @Column(name = "total_amount")
     private double totalAmount;
