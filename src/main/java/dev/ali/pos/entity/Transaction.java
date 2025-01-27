@@ -13,8 +13,8 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "order_id")
-    private Long orderId;
+    @OneToOne
+    private Order order;
 
     @Column(name = "cashier_id")
     private Long cashierId;
@@ -40,10 +40,6 @@ public class Transaction {
     @Column(name = "change_due")
     private double changeDueAmount;
 
-    @Column(name = "created_on")
-    @CreatedDate
-    private LocalDateTime createdOn;
-
     public Long getId() {
         return id;
     }
@@ -52,12 +48,12 @@ public class Transaction {
         this.id = id;
     }
 
-    public Long getOrderId() {
-        return orderId;
+    public Order getOrder() {
+        return order;
     }
 
-    public void setOrderId(Long orderId) {
-        this.orderId = orderId;
+    public void setOrder(Order order) {
+        this.order = order;
     }
 
     public Long getCashierId() {

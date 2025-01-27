@@ -12,7 +12,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // ROLE_ADMIN || ROLE_USER
+    // ROLE_ADMIN || ROLE_USER || ROLE_MANAGER
     @Column(name = "role")
     private String role;
     @Column(name = "username")
@@ -23,9 +23,16 @@ public class User {
     // So that a user can be disabled for some reason
     @Column(name = "is_active")
     private boolean isActive;
-    @Column(name = "created_on")
-    @CreatedDate
-    private LocalDateTime createdOn;
+
+    public User() {
+    }
+
+    public User(String role, String username, String password, boolean isActive) {
+        this.role = role;
+        this.username = username;
+        this.password = password;
+        this.isActive = isActive;
+    }
 
     public String getUsername() {
         return username;
@@ -66,12 +73,5 @@ public class User {
         this.role = type;
     }
 
-    public LocalDateTime getCreatedOn() {
-        return createdOn;
-    }
-
-    public void setCreatedOn(LocalDateTime createdOn) {
-        this.createdOn = createdOn;
-    }
 
 }

@@ -13,9 +13,6 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
-    private Item item;
-
     @Column(name = "name")
     private String name;
 
@@ -45,9 +42,19 @@ public class Product {
     @Column(name = "price")
     private double price;
 
-    @Column(name = "created_on")
-    @CreatedDate
-    private LocalDateTime createdOn;
+    public Product() {
+    }
+
+    public Product(String name, String model, String type, String description, String manufacturer, Supplier supplier, String status, double price) {
+        this.name = name;
+        this.model = model;
+        this.type = type;
+        this.description = description;
+        this.manufacturer = manufacturer;
+        this.supplier = supplier;
+        this.status = status;
+        this.price = price;
+    }
 
     public Long getId() {
         return id;
@@ -55,14 +62,6 @@ public class Product {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Item getItem() {
-        return item;
-    }
-
-    public void setItem(Item item) {
-        this.item = item;
     }
 
     public void setPrice(double price) {
@@ -133,11 +132,4 @@ public class Product {
         this.price = price;
     }
 
-    public LocalDateTime getCreatedOn() {
-        return createdOn;
-    }
-
-    public void setCreatedOn(LocalDateTime createdOn) {
-        this.createdOn = createdOn;
-    }
 }

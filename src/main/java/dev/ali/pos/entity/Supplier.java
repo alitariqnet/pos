@@ -19,6 +19,15 @@ public class Supplier {
     @Column(name = "phone")
     private String phone;
 
+    public Supplier() {
+    }
+
+    public Supplier(String name, String address, String phone) {
+        this.name = name;
+        this.address = address;
+        this.phone = phone;
+    }
+
     public Long getId() {
         return id;
     }

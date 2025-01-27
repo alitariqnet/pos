@@ -1,14 +1,15 @@
 package dev.ali.pos.entity;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "managers")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Manager extends User{
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     @Column(name = "first_name")
     private String firstName;
     @Column(name = "last_name")
@@ -21,6 +22,18 @@ public class Manager extends User{
     private String email;
     @Column(name = "gender")
     private String gender;
+
+    public Manager() {
+    }
+
+    public Manager(String firstName, String lastName, String address, String phone, String email, String gender) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.address = address;
+        this.phone = phone;
+        this.email = email;
+        this.gender = gender;
+    }
 
     public String getFirstName() {
         return firstName;

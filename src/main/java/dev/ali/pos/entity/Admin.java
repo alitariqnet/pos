@@ -1,14 +1,15 @@
 package dev.ali.pos.entity;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "admins")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Admin extends User{
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     @Column(name = "first_name")
     private String firstName;
     @Column(name = "last_name")

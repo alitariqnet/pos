@@ -14,22 +14,21 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(name = "cashier_id")
     private Long cashierId;
-    @Column(name = "transaction_id")
-    private Long transactionId;
-    @OneToMany(mappedBy = "id")
-    private List<Item> items;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "transaction_id", referencedColumnName = "id")
+    private Transaction transaction;
+
     @Column(name = "total_amount")
     private double totalAmount;
+
     // Either the order is successful or not
-    // e.g. If a customer quits at cart before checkout
-    // for unplaced order we can remind customer about incomplete order
+    // e.g. If a customer leaves at checkout without buying anything
     @Column(name = "checkout")
     private boolean checkout;
-    @Column(name = "created_on")
-    @CreatedDate
-    private LocalDateTime createdOn;
 
     public Long getId() {
         return id;
@@ -39,28 +38,20 @@ public class Order {
         this.id = id;
     }
 
-    public Long getCustomerId() {
+    public Long getCashierId() {
         return cashierId;
     }
 
-    public void setCustomerId(Long customerId) {
-        this.cashierId = customerId;
+    public void setCashierId(Long cashierId) {
+        this.cashierId = cashierId;
     }
 
-    public Long getTransactionId() {
-        return transactionId;
+    public Transaction getTransaction() {
+        return transaction;
     }
 
-    public void setTransactionId(Long transactionId) {
-        this.transactionId = transactionId;
-    }
-
-    public List<Item> getItems() {
-        return items;
-    }
-
-    public void setItems(List<Item> items) {
-        this.items = items;
+    public void setTransaction(Transaction transaction) {
+        this.transaction = transaction;
     }
 
     public double getTotalAmount() {
@@ -79,11 +70,4 @@ public class Order {
         checkout = placed;
     }
 
-    public LocalDateTime getCreatedOn() {
-        return createdOn;
-    }
-
-    public void setCreatedOn(LocalDateTime createdOn) {
-        this.createdOn = createdOn;
-    }
 }

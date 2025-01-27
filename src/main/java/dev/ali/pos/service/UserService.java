@@ -7,9 +7,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class UserService {
+
     private static final Logger log = LoggerFactory.getLogger(UserService.class);
+
     @Autowired
     private UserRepository userRepository;
 
@@ -18,8 +22,15 @@ public class UserService {
     }
 
     public User create(User user){
-        log.info("Creating new user...");
-        return userRepository.save(user);
+        log.info("Checking if username already exists...");
+        Optional<User> _user = this.findByUsername(user.getUsername());
+        if(_user.isPresent()){
+            log.info("Creating new user...");
+            return userRepository.save(user);
+        }
+        else return null;
     }
-
+    public Optional<User> findByUsername(String username){
+        return userRepository.findByUsername(username);
+    }
 }

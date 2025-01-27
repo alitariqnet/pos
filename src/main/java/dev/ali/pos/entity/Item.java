@@ -12,8 +12,8 @@ public class Item {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
-//    @Column(name = "product_id")
+    @ManyToOne
+    @JoinColumn(name = "product_id")
     private Product product;
 
     @ManyToOne
@@ -44,6 +44,19 @@ public class Item {
 
     @Column(name = "quantity")
     private int quantity;
+
+    public Item() {
+    }
+
+    public Item(String name, double unitPrice, double totalPrice, int discount, double discountedPrice, boolean promotion, int quantity) {
+        this.name = name;
+        this.unitPrice = unitPrice;
+        this.totalPrice = totalPrice;
+        this.discount = discount;
+        this.discountedPrice = discountedPrice;
+        this.promotion = promotion;
+        this.quantity = quantity;
+    }
 
     public Long getId() {
         return id;
