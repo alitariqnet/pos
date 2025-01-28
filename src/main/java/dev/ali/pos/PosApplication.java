@@ -43,7 +43,6 @@ public class PosApplication {
     public static void main(String[] args) {
         log.info("Starting POS application...");
         SpringApplication.run(PosApplication.class, args);
-        // TODO: Write a command line runner to populate database with initial values such as products
     }
 
     @PostConstruct
