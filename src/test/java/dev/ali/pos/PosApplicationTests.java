@@ -97,6 +97,7 @@ class PosApplicationTests {
 	}
 	@Test
 	void createOrder(){
+		// Pick items to buy
 		List<Long> ids = List.of(16L,17L,18L);
 		List<Item> items = salesService.selectItems(ids);
 		double changeDue = salesService.createOrder(500,items);

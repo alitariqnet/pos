@@ -1,6 +1,7 @@
 package dev.ali.pos.entity;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import org.springframework.data.annotation.CreatedDate;
 
@@ -13,12 +14,9 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
-    private Order order;
-
     @Column(name = "cashier_id")
     private Long cashierId;
-
+    // TODO: Move quantity to Order entity
     @Column(name = "quantity")
     private int quantity;
 
@@ -46,14 +44,6 @@ public class Transaction {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Order getOrder() {
-        return order;
-    }
-
-    public void setOrder(Order order) {
-        this.order = order;
     }
 
     public Long getCashierId() {

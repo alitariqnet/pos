@@ -66,7 +66,7 @@ public class Order {
         return checkout;
     }
 
-    public void setPlaced(boolean placed) {
+    public void setCheckout(boolean placed) {
         checkout = placed;
     }
 

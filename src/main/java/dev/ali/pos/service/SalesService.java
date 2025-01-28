@@ -2,7 +2,10 @@ package dev.ali.pos.service;
 
 import dev.ali.pos.entity.*;
 import dev.ali.pos.mapper.ProductMapper;
+import dev.ali.pos.repository.ItemRepository;
 import dev.ali.pos.repository.OrderRepository;
+import dev.ali.pos.repository.TransactionRepository;
+import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +18,7 @@ import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-
+@Transactional
 @Service
 public class SalesService {
     private static final Logger log = LoggerFactory.getLogger(SalesService.class);
@@ -33,6 +36,13 @@ public class SalesService {
 
     @Autowired
     private OrderRepository orderRepository;
+
+    @Autowired
+    private TransactionRepository transactionRepository;
+
+    @Autowired
+    private ItemRepository itemRepository;
+
 
     public SalesService() {
     }
@@ -56,7 +66,6 @@ public class SalesService {
         List<Item> items = this.selectItems(ids);
         double changeDue = this.createOrder(500,items);
         log.info("Change due -> "+changeDue);
-        assertEquals(changeDue, 149, 0.01);
 
     }
 
@@ -82,7 +91,7 @@ public class SalesService {
 
     public double createOrder(double receivedAmount, List<Item> items){
         log.info("Entering inside createOrder method in SalesService class...");
-        Long cashierId = 7L;
+        Long cashierId = 11L;
         // Create a new order
         Order order = new Order();
         order.setCashierId(cashierId);
@@ -104,7 +113,7 @@ public class SalesService {
         log.info("Sub-total -> "+subTotal);
         log.info("Netpayable -> "+netPayable);
         order.setTotalAmount(netPayable);
-
+        transaction.setCashierId(cashierId);
         transaction.setNetPayable(netPayable);
         transaction.setReceivedAmount(receivedAmount);
         double changeDue = receivedAmount - netPayable;
@@ -112,11 +121,19 @@ public class SalesService {
         log.info("Received amount -> "+receivedAmount);
         log.info("Change due -> "+changeDue);
         order.setTransaction(transaction);
+        this.checkout(order,transaction,items);
         this.printInvoice(order, transaction, items);
         return changeDue;
     }
-    void checkout(Order order){
-        assertNotNull(orderRepository.save(order));
+    void checkout(Order order, Transaction transaction, List<Item> items){
+        log.info("Entering checkout...");
+        order.setCheckout(true);
+        Order order1 = orderRepository.save(order);
+        items.forEach(item -> item.setOrder(order1));
+
+        log.info("Order1 id -> "+order1.getId());
+        transactionRepository.save(transaction);
+        log.info("Leaving checkout...");
     }
 
     public double calculateTotal(List<Item> items) {
