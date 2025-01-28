@@ -22,7 +22,7 @@ public class InvoiceService {
 
         items.forEach(item -> {
             System.out.printf("| %-6s%-15s%-12.2f%-6d%-7d%-7.2f |%n",
-                    item.getId() != null ? item.getId() : "null",
+                    item.getSerialNo(),
                     item.getName(),
                     item.getUnitPrice(),
                     item.getQuantity(),
@@ -30,7 +30,12 @@ public class InvoiceService {
                     item.isPromotion() ? item.getDiscountedPrice() * item.getQuantity() : item.getUnitPrice() * item.getQuantity()
             );
         });
-
+        System.out.println("|              ---------------------------              |");
+        System.out.printf("|%30sSubtotal: %14.2f |%n", "", transaction.getSubTotal());
+        System.out.printf("|%30sService fee: %11.2f |%n", "", transaction.getServiceFee());
+        System.out.printf("|%30sNet payable: %11.2f |%n", "", transaction.getNetPayable());
+        System.out.printf("|%30sAmount received: %7.2f |%n", "", transaction.getReceivedAmount());
+        System.out.printf("|%30sChange due: %12.2f |%n", "", transaction.getChangeDueAmount());
         System.out.println("+-------------------------------------------------------+");
 
     }

@@ -51,11 +51,11 @@ public class SalesService {
         this.userService = userService;
     }
 
-    public List<Order> getSalesByCashier(Long id, LocalDateTime fromDate, LocalDateTime toDate){
+    public List<Order> getOrdersByCashier(Long id, LocalDateTime fromDate, LocalDateTime toDate){
         // TODO: call getTransactionsByCashier id and then calculate sales per cashier for certain time period
         return null;
     }
-    public List<Transaction> getTransactionsByCashier(Long id){
+    public List<Transaction> getTransactionsByCashier(Long id, LocalDateTime fromDate, LocalDateTime toDate){
         // TODO: get orders by cashier for certain time period from TransactionRepository by cashier id
         return null;
     }
@@ -64,7 +64,7 @@ public class SalesService {
 
         List<Long> ids = List.of(16L,17L,18L);
         List<Item> items = this.selectItems(ids);
-        double changeDue = this.createOrder(500,items);
+        double changeDue = this.createOrder(1000,items);
         log.info("Change due -> "+changeDue);
 
     }
@@ -77,11 +77,10 @@ public class SalesService {
         for(Long id: ids){
             Optional<Product> product = productService.findById(id);
             Item item = ProductMapper.productToItem(product.get());
-            item.setId(itemCount.longValue());
+            item.setSerialNo(itemCount);
             // Assuming regular product with no promotion
-            item.setPromotion(false);
             // Assuming quantity as 1 for each product
-            item.setQuantity(1);
+            item.setQuantity(2);
             log.info("Selected item"+itemCount+" price -> "+ item.getUnitPrice());
             items.add(item);
             itemCount++;
@@ -109,6 +108,7 @@ public class SalesService {
 
         // Adding total of each item to get sub-total
         double subTotal = this.calculateTotal(items);
+        transaction.setSubTotal(subTotal);
         double netPayable = subTotal+transaction.getServiceFee();
         log.info("Sub-total -> "+subTotal);
         log.info("Netpayable -> "+netPayable);
@@ -129,9 +129,9 @@ public class SalesService {
         log.info("Entering checkout...");
         order.setCheckout(true);
         Order order1 = orderRepository.save(order);
-        items.forEach(item -> item.setOrder(order1));
-
         log.info("Order1 id -> "+order1.getId());
+        items.forEach(item -> item.setOrderId(order1.getId()));
+        itemRepository.saveAll(items);
         transactionRepository.save(transaction);
         log.info("Leaving checkout...");
     }
