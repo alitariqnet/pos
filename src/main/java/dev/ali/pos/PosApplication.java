@@ -58,9 +58,9 @@ public class PosApplication {
 //			User user = new User("ROLE_USER", "alibaba_user","pass",true);
 //			Manager manager = managerService.create("Ali", "Tariq","alibabapk@aol.com","1118174","Shalamar link road","m","alibaba","pass");
 //			log.info("New manager created ->", manager);
-
+//
 //			Supplier supplier = new Supplier("Hakim and sons.", "Shah Alam market, Lahore", "0422348593");
-//            Supplier supplier = supplierRepository.findByName("Hakim and sons.");
+////            Supplier supplier = supplierRepository.findByName("Hakim and sons.");
 //
 //            List<Product> productList = List.of(
 //                    new Product("Bonus", null, "washing", "Washing powder", "Unilever", supplier, "Available", 100),

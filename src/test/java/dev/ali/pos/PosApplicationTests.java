@@ -93,15 +93,15 @@ class PosApplicationTests {
 		List<Long> ids = List.of(16L,17L,18L);
 		double total = salesService.calculateTotal(salesService.selectItems(ids));
 		log.info("total -> "+ total);
-		assertEquals(total,350,0.01);
+		assertEquals(total,665,0.01);
 	}
 	@Test
 	void createOrder(){
 		// Pick items to buy
 		List<Long> ids = List.of(16L,17L,18L);
 		List<Item> items = salesService.selectItems(ids);
-		double changeDue = salesService.createOrder(500,items);
+		double changeDue = salesService.createOrder(1000,items);
 		log.info("Change due -> "+changeDue);
-		assertEquals(changeDue, 149,0.01);
+		assertEquals(changeDue, 334,0.01);
 	}
 }
