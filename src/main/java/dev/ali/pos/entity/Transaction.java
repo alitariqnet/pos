@@ -16,9 +16,6 @@ public class Transaction {
 
     @Column(name = "cashier_id")
     private Long cashierId;
-    // TODO: Move quantity to Order entity
-    @Column(name = "quantity")
-    private int quantity;
 
     // Total amount before including any taxes or service fees and before giving any discounts
     @Column(name = "subTotal")
@@ -52,14 +49,6 @@ public class Transaction {
 
     public void setCashierId(Long cashierId) {
         this.cashierId = cashierId;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
     }
 
     public double getSubTotal() {
@@ -100,5 +89,18 @@ public class Transaction {
 
     public void setChangeDueAmount(double changeDueAmount) {
         this.changeDueAmount = changeDueAmount;
+    }
+
+    @Override
+    public String toString() {
+        return "Transaction{" +
+                "id=" + id +
+                ", cashierId=" + cashierId +
+                ", subTotal=" + subTotal +
+                ", netPayable=" + netPayable +
+                ", serviceFee=" + serviceFee +
+                ", receivedAmount=" + receivedAmount +
+                ", changeDueAmount=" + changeDueAmount +
+                '}';
     }
 }

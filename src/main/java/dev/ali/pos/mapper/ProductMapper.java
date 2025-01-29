@@ -6,15 +6,15 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ProductMapper {
-    public static Item productToItem(Product product){
+    public static Item productToItem(Product product, boolean promotion, int discount){
 
         Item item = new Item();
         item.setName(product.getName());
         item.setProductId(product.getId());
         // If true then item.discount should contain a value from 1 to 99 or 100 if free :)
-        item.setPromotion(true);
+        item.setPromotion(promotion);
         // In percentage
-        item.setDiscount(5);
+        item.setDiscount(discount);
         item.setUnitPrice(product.getPrice());
         if(item.isPromotion()){
             item.setDiscountedPrice(item.getUnitPrice() - (item.getDiscount() * item.getUnitPrice()/100));

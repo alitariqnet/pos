@@ -73,12 +73,22 @@ public class SalesService {
         List<Item> items = new LinkedList<>();
         try{
         for(Long id: ids){
-            Optional<Product> product = productService.findById(id);
-            Item item = ProductMapper.productToItem(product.get());
+            Item item = new Item();
+            if(id%2==0){
+                item = this.selectItem(id, true,5);
+
+            }else{
+                item = this.selectItem(id,false,0);
+            }
             item.setSerialNo(itemCount);
             // Assuming regular product with no promotion
-            // Assuming quantity as 1 for each product
-            item.setQuantity(2);
+            // Assuming quantity as 1 for item who's unit price is greater than 100
+            if(item.getUnitPrice()>100){
+                item.setQuantity(1);
+            }
+            else{
+                item.setQuantity(2);
+            }
             log.info("Selected item"+itemCount+" price -> "+ item.getUnitPrice());
             items.add(item);
             itemCount++;
@@ -88,7 +98,11 @@ public class SalesService {
         }
        return items;
     }
-
+    public Item selectItem(Long id, boolean promotion, int discount){
+        Optional<Product> product = productService.findById(id);
+        Item item = ProductMapper.productToItem(product.get(), promotion, discount);
+        return item;
+    }
     public double createOrder(double receivedAmount, List<Item> items) {
         log.info("Entering inside createOrder method in SalesService class...");
         double changeDue = 0;
@@ -104,7 +118,7 @@ public class SalesService {
 
             // Get total number of items
             int totalNumberOfItems = items.stream().mapToInt(Item::getQuantity).sum();
-            transaction.setQuantity(totalNumberOfItems);
+            order.setQuantity(totalNumberOfItems);
             log.info("Total number of items -> " + totalNumberOfItems);
             // Rs. 1 POS service fee
             transaction.setServiceFee(1L);

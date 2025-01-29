@@ -15,8 +15,10 @@ public class User {
     // ROLE_ADMIN || ROLE_USER || ROLE_MANAGER
     @Column(name = "role")
     private String role;
+
     @Column(name = "username")
     private String username;
+
     @Column(name = "password")
     private String password;
 
@@ -49,6 +51,7 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
+
     public Long getId() {
         return id;
     }
@@ -73,5 +76,13 @@ public class User {
         this.role = type;
     }
 
-
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", role='" + role + '\'' +
+                ", username='" + username + '\'' +
+                ", isActive=" + isActive +
+                '}';
+    }
 }

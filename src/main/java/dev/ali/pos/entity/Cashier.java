@@ -79,5 +79,16 @@ public class Cashier extends User{
         this.gender = gender;
     }
 
-
+    @Override
+    public String toString() {
+        return "Cashier{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", address='" + address + '\'' +
+                ", phone='" + phone + '\'' +
+                ", email='" + email + '\'' +
+                ", gender='" + gender + '\'' +
+                '}';
+    }
 }

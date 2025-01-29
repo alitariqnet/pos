@@ -22,6 +22,9 @@ public class Order {
     @JoinColumn(name = "transaction_id", referencedColumnName = "id")
     private Transaction transaction;
 
+    @Column(name = "quantity")
+    private int quantity;
+
     @Column(name = "total_amount")
     private double totalAmount;
 
@@ -54,6 +57,14 @@ public class Order {
         this.transaction = transaction;
     }
 
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
     public double getTotalAmount() {
         return totalAmount;
     }
@@ -70,4 +81,15 @@ public class Order {
         checkout = placed;
     }
 
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id=" + id +
+                ", cashierId=" + cashierId +
+                ", transaction=" + transaction +
+                ", quantity=" + quantity +
+                ", totalAmount=" + totalAmount +
+                ", checkout=" + checkout +
+                '}';
+    }
 }

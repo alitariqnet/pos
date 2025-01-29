@@ -145,4 +145,21 @@ public class Item {
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
+
+    @Override
+    public String toString() {
+        return "Item{" +
+                "id=" + id +
+                ", serialNo=" + serialNo +
+                ", productId=" + productId +
+                ", orderId=" + orderId +
+                ", name='" + name + '\'' +
+                ", unitPrice=" + unitPrice +
+                ", totalPrice=" + totalPrice +
+                ", discount=" + discount +
+                ", discountedPrice=" + discountedPrice +
+                ", promotion=" + promotion +
+                ", quantity=" + quantity +
+                '}';
+    }
 }
